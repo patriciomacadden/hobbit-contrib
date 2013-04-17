@@ -42,6 +42,12 @@ describe Hobbit::EnhancedRender do
     end
   end
 
+  describe '#template_engine' do
+    it 'must be erb by default' do
+      app.to_app.template_engine.must_equal 'erb'
+    end
+  end
+
   describe '#view_path' do
     it 'must return a path' do
       path = File.expand_path('../fixtures/test_enhanced_render_app/views/index.erb', __FILE__)

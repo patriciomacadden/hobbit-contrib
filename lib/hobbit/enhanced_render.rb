@@ -5,7 +5,7 @@ module Hobbit
     include Hobbit::Render
 
     def layout_path(template)
-      "views/layouts/#{template}.erb"
+      "views/layouts/#{template}.#{template_engine}"
     end
 
     def partial(template, locals = {}, options = {}, &block)
@@ -20,6 +20,10 @@ module Hobbit
       else
         super(layout_path layout) { super }
       end
+    end
+
+    def template_engine
+      'erb'
     end
 
     def view_path(template)
