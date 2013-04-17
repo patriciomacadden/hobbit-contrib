@@ -45,7 +45,7 @@ end
 
 ### Hobbit::EnhancedRender
 
-This module extends the funcionality of `Hobbit::Render`. To use this extension
+This module extends the functionality of `Hobbit::Render`. To use this extension
 just include the module:
 
 ```ruby
