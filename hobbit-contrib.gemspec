@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hobbit'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
+  spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
 end
