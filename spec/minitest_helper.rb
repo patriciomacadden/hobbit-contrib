@@ -12,3 +12,4 @@ require 'hobbit/contrib'
 
 # hobbit test apps
 require 'fixtures/test_enhanced_render_app/test_enhanced_render_app'
+require 'fixtures/test_environment_app/test_environment_app'

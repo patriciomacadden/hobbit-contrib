@@ -78,6 +78,35 @@ views path, except that the template name will start with an underscore. For
 instance, if you call `partial 'partial'`, the path will become
 `views/_partial.erb`
 
+### Hobbit::Environment
+
+This extension allows you to control the application environment by using the
+provided methods. To use this extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::Environment
+
+  get '/' do
+    "currently in #{environment}"
+  end
+end
+
+run App.new
+```
+
+#### Available methods
+
+* `environment`: Returns the current environment. By default is
+`ENV['RACK_ENV']`.
+* `environment=()`: Sets the environment.
+* `development?`: Returns true if the current environment is `:development`.
+* `production?`: Returns true if the current environment is `:production`.
+* `test?`: Returns true if the current environment is `:test`.
+
 ## Contributing
 
 1. Fork it
