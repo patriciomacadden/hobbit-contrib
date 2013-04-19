@@ -27,7 +27,7 @@ module Hobbit
     end
 
     def view_path(template)
-      "views/#{template}.erb"
+      "views/#{template}.#{template_engine}"
     end
   end
 end
