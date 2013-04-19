@@ -43,6 +43,81 @@ end
 
 ## Available extensions
 
+### Hobbit::AssetTag
+
+This module allows you to include images, javascripts and stylesheets in a easy
+way. To use this extension just include the module:
+
+In `config.ru`:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  # Put your assets in:
+  # * public/images
+  # * public/javascripts
+  # * public/stylesheets
+  use Rack::Static, root: 'public', urls: ['/images', '/javascripts', '/stylesheets']
+  include Hobbit::AssetTag
+  inclue Hobbit::EnhancedRender # see below
+
+  get '/' do
+    render 'index', {}, layout: 'layout'
+  end
+end
+
+run App.new
+```
+
+in `views/layouts/layout.erb`:
+
+```ruby
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hobbit::AssetTag</title>
+    <!--
+    becomes:
+      <script src="http://code.jquery.com/jquery-2.0.0.min.js" type="text/javascript"></script>
+      <script src="/javascripts/application.js" type="text/javascript"></script>
+    -->
+    <%= javascript 'http://code.jquery.com/jquery-2.0.0.min.js', 'application' %>
+    <!--
+    becomes:
+      <link href="/stylesheets/application.css" rel="stylesheet"/>
+    -->
+    <%= stylesheet 'application' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+and in `views/index.erb`:
+
+```ruby
+<h1>Hobbit::AssetTag</h1>
+<!-- becomes: /images/some-hobbit.png -->
+<img src="<%= image_path 'some-hobbit.png' %>"/>
+```
+
+#### Available methods
+
+* `image_path`: Returns the path for a given image.
+* `javascript`: Returns a list of one or more script tags (see the example
+above).
+* `javascript_path`: Returns the path for a given javascript file. If you pass
+an url, it returns the given url. If you pass an arbitrary string, it returns
+`/javascripts/#{url}.js`.
+* `stylesheet`: Returns a list of one or more link tags (see the example
+above).
+* `stylesheet_path`: Returns the path for a given stylesheet file. If you pass
+an url, it returns the given url. If you pass an arbitrary string, it returns
+`/stylesheets/#{url}.css`.
+
 ### Hobbit::EnhancedRender
 
 This module extends the functionality of `Hobbit::Render`. To use this extension
