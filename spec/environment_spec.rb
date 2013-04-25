@@ -1,18 +1,22 @@
 require 'minitest_helper'
 
 describe Hobbit::Environment do
-  def app
-    TestEnvironmentApp.new
+  include Hobbit::Contrib::Mock
+
+  let(:app) do
+    app = mock_app do
+      include Hobbit::Environment
+    end
   end
 
   describe '#environment' do
-    it 'must return the setted environment' do
+    it 'must return the current environment' do
       app.to_app.environment = :development
       app.to_app.environment.must_equal :development
     end
 
     it 'must default to RACK_ENV' do
-      skip
+      app.to_app.environment.must_equal ENV['RACK_ENV'].to_sym
     end
   end
 

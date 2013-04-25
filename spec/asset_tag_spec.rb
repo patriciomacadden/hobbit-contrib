@@ -1,8 +1,12 @@
 require 'minitest_helper'
 
 describe Hobbit::AssetTag do
+  include Hobbit::Contrib::Mock
+
   def app
-    TestAssetTagApp.new
+    mock_app do
+      include Hobbit::AssetTag
+    end
   end
 
   describe '#image_path' do
