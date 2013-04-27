@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/patriciomacadden/hobbit-contrib.png?branch=master)](https://travis-ci.org/patriciomacadden/hobbit-contrib)
 [![Code Climate](https://codeclimate.com/github/patriciomacadden/hobbit-contrib.png)](https://codeclimate.com/github/patriciomacadden/hobbit-contrib)
+[![Coverage Status](https://coveralls.io/repos/patriciomacadden/hobbit-contrib/badge.png?branch=master)](https://coveralls.io/r/patriciomacadden/hobbit-contrib)
 
 Contributed Hobbit extensions.
 
