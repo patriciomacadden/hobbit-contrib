@@ -182,6 +182,39 @@ run App.new
 * `production?`: Returns true if the current environment is `:production`.
 * `test?`: Returns true if the current environment is `:test`.
 
+### Hobbit::ErrorHandling
+
+This extension provides a way of handling errors raised by your application. To
+use this extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::ErrorHandling
+
+  error Exception do |exception|
+    exception.message
+  end
+
+  get '/' do
+    raise Exception, 'Oops'
+  end
+end
+
+run App.new
+```
+
+#### Available methods
+
+* `errors`: Returns a hash with the exceptions being handled and its
+corresponding handler.
+* `error`: Sets a handler for a given exception.
+
+**Note**: If you define more than one handler per Exception class the last
+one defined will override the previous.
+
 ## Contributing
 
 1. Fork it

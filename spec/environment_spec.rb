@@ -4,7 +4,7 @@ describe Hobbit::Environment do
   include Hobbit::Contrib::Mock
 
   let(:app) do
-    app = mock_app do
+    mock_app do
       include Hobbit::Environment
     end
   end
