@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/patriciomacadden/hobbit-contrib.png?branch=master)](https://travis-ci.org/patriciomacadden/hobbit-contrib)
 [![Code Climate](https://codeclimate.com/github/patriciomacadden/hobbit-contrib.png)](https://codeclimate.com/github/patriciomacadden/hobbit-contrib)
 [![Coverage Status](https://coveralls.io/repos/patriciomacadden/hobbit-contrib/badge.png?branch=master)](https://coveralls.io/r/patriciomacadden/hobbit-contrib)
+[![Dependency Status](https://gemnasium.com/patriciomacadden/hobbit-contrib.png)](https://gemnasium.com/patriciomacadden/hobbit-contrib)
+[![Gem Version](https://badge.fury.io/rb/hobbit-contrib.png)](http://badge.fury.io/rb/hobbit-contrib)
 
 Contributed Hobbit extensions.
 
