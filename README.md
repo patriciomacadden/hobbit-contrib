@@ -212,8 +212,8 @@ run App.new
 corresponding handler.
 * `error`: Sets a handler for a given exception.
 
-**Note**: If you define more than one handler per Exception class the last
-one defined will override the previous.
+**Note**: If you define more than one handler per exception the last one
+defined will have precedence over the others.
 
 ## Contributing
 
