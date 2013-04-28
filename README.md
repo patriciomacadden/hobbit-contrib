@@ -218,6 +218,43 @@ corresponding handler.
 **Note**: If you define more than one handler per exception the last one
 defined will have precedence over the others.
 
+### Hobbit::Filter
+
+This extension provides a way of calling blocks before and after the
+evaluation of a route (just like sinatra's filters). To use this extension just
+include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::Filter
+
+  def authenticate_user!
+    # ...
+  end
+
+  before do
+    authenticate_user!
+  end
+
+  get '/' do
+    # ...
+  end
+end
+
+run App.new
+```
+
+#### Available methods
+
+* `after`: Sets an after filter. Optionally, you can specify a route.
+* `before`: Sets a before filter. Optionally, you can specify a route.
+
+**Note**: It is recommended to include `Hobbit::Filter` before
+`Hobbit::ErrorHandling` if you want to use both extensions.
+
 ## Contributing
 
 1. Fork it
