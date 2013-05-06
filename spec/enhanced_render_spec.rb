@@ -10,12 +10,12 @@ describe Hobbit::EnhancedRender do
 
       # we do this because it the layout path is relative to file being run
       def layout_path(template)
-        File.expand_path("../fixtures/#{super}", __FILE__)
+        File.expand_path("../fixtures/enhanced_render/#{super}", __FILE__)
       end
 
       # we do this because it the view path is relative to file being run
       def view_path(template)
-        File.expand_path("../fixtures/#{super}", __FILE__)
+        File.expand_path("../fixtures/enhanced_render/#{super}", __FILE__)
       end
 
       get '/' do
@@ -34,7 +34,7 @@ describe Hobbit::EnhancedRender do
 
   describe '#layout_path' do
     it 'must return a path' do
-      path = File.expand_path('../fixtures/views/layouts/layout.erb', __FILE__)
+      path = File.expand_path('../fixtures/enhanced_render/views/layouts/layout.erb', __FILE__)
       app.to_app.layout_path('layout').must_equal path
     end
   end
@@ -75,7 +75,7 @@ describe Hobbit::EnhancedRender do
 
   describe '#view_path' do
     it 'must return a path' do
-      path = File.expand_path('../fixtures/views/index.erb', __FILE__)
+      path = File.expand_path('../fixtures/enhanced_render/views/index.erb', __FILE__)
       app.to_app.view_path('index').must_equal path
     end
   end
