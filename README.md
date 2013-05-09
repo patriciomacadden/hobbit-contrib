@@ -1,10 +1,4 @@
-# Hobbit::Contrib
-
-[![Build Status](https://travis-ci.org/patriciomacadden/hobbit-contrib.png?branch=master)](https://travis-ci.org/patriciomacadden/hobbit-contrib)
-[![Code Climate](https://codeclimate.com/github/patriciomacadden/hobbit-contrib.png)](https://codeclimate.com/github/patriciomacadden/hobbit-contrib)
-[![Coverage Status](https://coveralls.io/repos/patriciomacadden/hobbit-contrib/badge.png?branch=master)](https://coveralls.io/r/patriciomacadden/hobbit-contrib)
-[![Dependency Status](https://gemnasium.com/patriciomacadden/hobbit-contrib.png)](https://gemnasium.com/patriciomacadden/hobbit-contrib)
-[![Gem Version](https://badge.fury.io/rb/hobbit-contrib.png)](http://badge.fury.io/rb/hobbit-contrib)
+# Hobbit::Contrib [![Build Status](https://travis-ci.org/patriciomacadden/hobbit-contrib.png?branch=master)](https://travis-ci.org/patriciomacadden/hobbit-contrib) [![Code Climate](https://codeclimate.com/github/patriciomacadden/hobbit-contrib.png)](https://codeclimate.com/github/patriciomacadden/hobbit-contrib) [![Coverage Status](https://coveralls.io/repos/patriciomacadden/hobbit-contrib/badge.png?branch=master)](https://coveralls.io/r/patriciomacadden/hobbit-contrib) [![Dependency Status](https://gemnasium.com/patriciomacadden/hobbit-contrib.png)](https://gemnasium.com/patriciomacadden/hobbit-contrib) [![Gem Version](https://badge.fury.io/rb/hobbit-contrib.png)](http://badge.fury.io/rb/hobbit-contrib)
 
 Contributed Hobbit extensions.
 
@@ -32,14 +26,17 @@ $ gem install hobbit-contrib
 
 ## Usage
 
-Each extension may have its own usage. In general, including (or extending) the
-module will be enough.
+Each extension may have its own usage. In general, including the module will be
+enough.
 
 ```ruby
 require 'hobbit'
 require 'hobbit/contrib'
 
 class App < Hobbit::Base
+  # include hobbit session extension
+  include Hobbit::Session
+
   # define your application
 end
 ```
@@ -254,6 +251,60 @@ run App.new
 
 **Note**: It is recommended to include `Hobbit::Filter` before
 `Hobbit::ErrorHandling` if you want to use both extensions.
+
+### Hobbit::Render
+
+This module provides rendering to your hobbit application. To use this
+extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::Render
+
+  get '/' do
+    render 'views/index.erb'
+  end
+
+  get '/with-layout' do
+    render 'views/layout.erb' do
+      render 'views/index.erb'
+    end
+  end
+end
+```
+
+#### Available methods
+
+* `render`: Renders the given template using tilt.
+
+### Hobbit::Session
+
+This module provides helper methods for handling user sessions. To use this
+extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::Session
+
+  post '/' do
+    session[:name] = 'hobbit'
+  end
+
+  get '/' do
+    "Hello #{session[:name]}!"
+  end
+end
+```
+
+#### Available methods
+
+* `session`: Returns the user's session.
 
 ## Contributing
 

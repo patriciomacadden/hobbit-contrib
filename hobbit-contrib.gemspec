@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'tilt'
 
   spec.add_runtime_dependency 'hobbit'
+  spec.add_runtime_dependency 'tilt'
 end
