@@ -118,41 +118,6 @@ above).
 an url, it returns the given url. If you pass an arbitrary string, it returns
 `/stylesheets/#{url}.css`.
 
-### Hobbit::EnhancedRender
-
-This module extends the functionality of `Hobbit::Render`. To use this extension
-just include the module:
-
-```ruby
-require 'hobbit'
-require 'hobbit/contrib'
-
-class App < Hobbit::Base
-  include Hobbit::EnhancedRender
-
-  get '/' do
-    # index will become views/index.erb
-    # use a layout (named 'layout'. It will become views/layouts/layout.erb)
-    render 'index', {}, layout: 'layout'
-  end
-end
-```
-
-#### Available methods
-
-* `template_engine`: Returns the default template engine being used for this
-application. By default is `erb`.
-* `layout_path`: Returns the layout path according to the given template. For
-instance, `layout_path('layout')` will become `views/layouts/layout.erb`
-* `view_path`: Returns the view path according to the given template. For
-instance, `view_path('index')` will become `views/index.erb`
-* `render`: It's the same as in `Hobbit::Render`, but you can render templates
-with a layout (See the example above).
-* `partial`: It's the same as `render`, but expands the template name to the
-views path, except that the template name will start with an underscore. For
-instance, if you call `partial 'partial'`, the path will become
-`views/_partial.erb`
-
 ### Hobbit::Environment
 
 This extension allows you to control the application environment by using the
@@ -265,20 +230,27 @@ class App < Hobbit::Base
   include Hobbit::Render
 
   get '/' do
-    render 'views/index.erb'
-  end
-
-  get '/with-layout' do
-    render 'views/layout.erb' do
-      render 'views/index.erb'
-    end
+    # will render views/index.erb using views/layouts/application.erb as layout
+    render 'index'
   end
 end
 ```
 
 #### Available methods
 
-* `render`: Renders the given template using tilt.
+* `default_layout`: Returns the name of the default layout (Override to use
+another layout).
+* `find_template`: Returns the path to a template (Override for multiple views
+paths lookup).
+* `layouts_path`: Returns the layouts path (Override to change the layouts
+directory).
+* `partial`: Renders the given template using tilt (without a layout).
+* `render`: Renders the given template using tilt. You can pass a `layout`
+option to change the layout (or set to `false` to not use one).
+* `template_engine`: Returns the template engine beign used (Override to use
+other template engine).
+* `views_path`: Returns the views path (Override to change the views
+directory).
 
 ### Hobbit::Session
 
@@ -291,6 +263,7 @@ require 'hobbit/contrib'
 
 class App < Hobbit::Base
   include Hobbit::Session
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 
   post '/' do
     session[:name] = 'hobbit'
