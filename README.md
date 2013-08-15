@@ -142,7 +142,6 @@ run App.new
 
 * `environment`: Returns the current environment. By default is
 `ENV['RACK_ENV']`.
-* `environment=()`: Sets the environment.
 * `development?`: Returns true if the current environment is `:development`.
 * `production?`: Returns true if the current environment is `:production`.
 * `test?`: Returns true if the current environment is `:test`.

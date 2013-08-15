@@ -11,55 +11,45 @@ describe Hobbit::Environment do
 
   describe '#environment' do
     it 'must return the current environment' do
-      app.to_app.environment = :development
+      env, ENV['RACK_ENV'] = ENV['RACK_ENV'], 'development'
       app.to_app.environment.must_equal :development
-    end
-
-    it 'must default to RACK_ENV' do
-      app.to_app.environment.must_equal ENV['RACK_ENV'].to_sym
-    end
-  end
-
-  describe '#environment=()' do
-    it 'must set the environment' do
-      app.to_app.environment = :test
-      app.to_app.environment.must_equal :test
+      ENV['RACK_ENV'] = env
     end
   end
 
   describe '#development?' do
     it 'must return true if self.class.settings[:environment] = :development' do
-      app.to_app.environment = :development
+      env, ENV['RACK_ENV'] = ENV['RACK_ENV'], 'development'
       app.to_app.development?.must_equal true
+      ENV['RACK_ENV'] = env
     end
 
     it 'must return false if self.class.settings[:environment] != :development' do
-      app.to_app.environment = :production
       app.to_app.development?.must_equal false
     end
   end
 
   describe '#production?' do
     it 'must return true if self.class.settings[:environment] = :production' do
-      app.to_app.environment = :production
+      env, ENV['RACK_ENV'] = ENV['RACK_ENV'], 'production'
       app.to_app.production?.must_equal true
+      ENV['RACK_ENV'] = env
     end
 
     it 'must return false if self.class.settings[:environment] != :production' do
-      app.to_app.environment = :test
       app.to_app.production?.must_equal false
     end
   end
 
   describe '#test?' do
     it 'must return true if self.class.settings[:environment] = :test' do
-      app.to_app.environment = :test
       app.to_app.test?.must_equal true
     end
 
     it 'must return false if self.class.settings[:environment] != :test' do
-      app.to_app.environment = :development
+      env, ENV['RACK_ENV'] = ENV['RACK_ENV'], 'development'
       app.to_app.test?.must_equal false
+      ENV['RACK_ENV'] = env
     end
   end
 end
