@@ -61,7 +61,7 @@ class App < Hobbit::Base
   # * public/stylesheets
   use Rack::Static, root: 'public', urls: ['/images', '/javascripts', '/stylesheets']
   include Hobbit::AssetTag
-  include Hobbit::EnhancedRender # see below
+  include Hobbit::Render # see below
 
   get '/' do
     render 'index', {}, layout: 'layout'
