@@ -4,19 +4,22 @@ describe Hobbit::ErrorHandling do
   include Hobbit::Contrib::Mock
   include Rack::Test::Methods
 
-  class NotFoundException < StandardError ; end
+  class NotFoundException < Exception ; end
+  class SpecificNotFoundException < NotFoundException ; end
+  class UnknownException < Exception ; end
 
   let(:app) do
     mock_app do
       include Hobbit::ErrorHandling
 
-      error Exception do |exception|
-        exception.message
-      end
-
       error NotFoundException do
         'Not Found'
       end
+
+      error StandardError do |exception|
+        exception.message
+      end
+
 
       get '/' do
         'hello'
@@ -24,12 +27,22 @@ describe Hobbit::ErrorHandling do
 
       get '/raises' do
         'not this'
-        raise Exception, 'Exception'
+        raise StandardError, 'StandardError'
       end
 
       get '/other_raises' do
         response.write 'not this'
         raise NotFoundException
+      end
+
+      get '/same_other_raises' do
+        response.write 'not this'
+        raise SpecificNotFoundException
+      end
+
+      get '/uncaught_raise' do
+        response.write 'not this'
+        raise UnknownException
       end
     end
   end
@@ -39,11 +52,11 @@ describe Hobbit::ErrorHandling do
       p = Proc.new { 'error' }
       app = mock_app do
         include Hobbit::ErrorHandling
-        error Exception, &p
+        error StandardError, &p
       end
 
-      app.to_app.class.errors.must_include Exception
-      app.to_app.class.errors[Exception].call.must_equal p.call
+      app.to_app.class.errors.must_include StandardError
+      app.to_app.class.errors[StandardError].call.must_equal p.call
     end
   end
 
@@ -53,7 +66,7 @@ describe Hobbit::ErrorHandling do
     end
   end
 
-  describe 'when does not raises an exception' do
+  describe 'when does not raise exception' do
     it 'must work as expected' do
       get '/'
       last_response.must_be :ok?
@@ -61,15 +74,27 @@ describe Hobbit::ErrorHandling do
     end
   end
 
-  describe 'when raises an exception' do
+  describe 'when does raise an unknown exception class' do
+    it 'must not halt default propagation of the unknown class' do
+      proc {get '/uncaught_raise'}.must_raise(UnknownException)
+    end
+  end
+
+  describe 'when raises an known exception class' do
     it 'must call the block set in error' do
       get '/raises'
       last_response.must_be :ok?
-      last_response.body.must_equal 'Exception'
+      last_response.body.must_equal 'StandardError'
     end
 
     it 'must allow to define more than one exception' do
       get '/other_raises'
+      last_response.must_be :ok?
+      last_response.body.must_equal 'Not Found'
+    end
+
+    it 'must allow to define a general exception class to catch' do
+      get '/same_other_raises'
       last_response.must_be :ok?
       last_response.body.must_equal 'Not Found'
     end
@@ -82,7 +107,7 @@ describe Hobbit::ErrorHandling do
     end
 
     it 'must override a previous block if a new one is passed' do
-      app.to_app.class.error Exception do
+      app.to_app.class.error StandardError do
         'other handler!'
       end
 
