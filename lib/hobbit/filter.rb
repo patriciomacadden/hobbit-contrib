@@ -26,8 +26,8 @@ module Hobbit
 
     def _call(env)
       @env = env
-      @request = self.class.settings[:request_class].new(@env)
-      @response = self.class.settings[:response_class].new
+      @request = Rack::Request.new(@env)
+      @response = Hobbit::Response.new
       filter!(:before)
       super
       filter!(:after)
