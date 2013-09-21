@@ -2,7 +2,7 @@ module Hobbit
   module Filter
     module ClassMethods
       %w(after before).each do |kind|
-        define_method(kind) { |path = '', &block| filters[kind.to_sym] << compile_filter!(path, &block) }
+        define_method(kind) { |path = '', &block| filters[kind.to_sym] << compile_filter(path, &block) }
       end
 
       def filters
@@ -11,7 +11,7 @@ module Hobbit
 
       private
 
-      def compile_filter!(path, &block)
+      def compile_filter(path, &block)
         filter = { block: block, compiled_path: nil, extra_params: [], path: path }
 
         compiled_path = path.gsub(/:\w+/) do |match|
@@ -28,9 +28,9 @@ module Hobbit
       @env = env
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
-      filter!(:before)
+      filter :before
       super
-      filter!(:after)
+      filter :after
       @response.finish
     end
 
@@ -40,7 +40,7 @@ module Hobbit
 
     private
 
-    def filter!(kind)
+    def filter(kind)
       filter = self.class.filters[kind].detect { |f| f[:compiled_path] =~ request.path_info || f[:path] =~ // }
       if filter
         $~.captures.each_with_index do |value, index|
