@@ -55,6 +55,57 @@ EOS
     end
   end
 
+  describe '::compile_filter' do
+    let(:block) { block = Proc.new { |env| [200, {}, []] } }
+
+    it 'must compile an empty string' do
+      path = ''
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^$/.to_s
+    end
+
+    it 'must compile /' do
+      path = '/'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/$/.to_s
+    end
+
+    it 'must compile with .' do
+      path = '/route.json'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/route.json$/.to_s
+    end
+
+    it 'must compile with -' do
+      path = '/hello-world'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/hello-world$/.to_s
+    end
+
+    it 'must compile with params' do
+      path = '/hello/:name'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/hello\/([^\/?#]+)$/.to_s
+
+      path = '/say/:something/to/:someone'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/.to_s
+    end
+
+    it 'must compile with . and params' do
+      path = '/route/:id.json'
+      route = app.to_app.class.send :compile_filter, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].to_s.must_equal /^\/route\/([^\/?#]+).json$/.to_s
+    end
+  end
+
   it 'must call before and after filters' do
     get '/'
     last_response.must_be :ok?
