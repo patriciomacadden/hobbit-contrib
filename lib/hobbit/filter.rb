@@ -30,8 +30,10 @@ module Hobbit
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
       filter :before
-      super
-      filter :after
+      unless @response.redirection?
+        super
+        filter :after
+      end
       @response.finish
     end
 

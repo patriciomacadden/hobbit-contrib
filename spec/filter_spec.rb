@@ -142,4 +142,32 @@ EOS
       last_request.env['hobbit.after'].must_equal 'this will match'
     end
   end
+
+  describe 'when a before filter redirects the response' do
+    let :app do
+      mock_app do
+        include Hobbit::Filter
+
+        before do
+          response.redirect '/goodbye' unless request.path_info == '/goodbye'
+        end
+
+        get '/' do
+          'hello world'
+        end
+
+        get '/goodbye' do
+          'goodbye world'
+        end
+      end
+    end
+
+    it 'must redirect on before filters' do
+      get '/'
+      last_response.must_be :redirection?
+      follow_redirect!
+      last_response.must_be :ok?
+      last_response.body.must_match /goodbye world/
+    end
+  end
 end
