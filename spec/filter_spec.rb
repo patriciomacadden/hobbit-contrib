@@ -58,13 +58,6 @@ EOS
   describe '::compile_filter' do
     let(:block) { block = Proc.new { |env| [200, {}, []] } }
 
-    it 'must compile an empty string' do
-      path = ''
-      route = app.to_app.class.send :compile_filter, path, &block
-      route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].to_s.must_equal /^$/.to_s
-    end
-
     it 'must compile /' do
       path = '/'
       route = app.to_app.class.send :compile_filter, path, &block

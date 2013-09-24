@@ -25,6 +25,7 @@ module Hobbit
     end
 
     def _call(env)
+      env['PATH_INFO'] = '/' if env['PATH_INFO'].empty?
       @env = env
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
