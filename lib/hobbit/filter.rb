@@ -30,7 +30,7 @@ module Hobbit
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
       filter :before
-      unless @response.redirection?
+      unless @response.status == 302
         super
         filter :after
       end
