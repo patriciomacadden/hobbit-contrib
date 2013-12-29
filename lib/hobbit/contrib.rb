@@ -1,4 +1,3 @@
-require 'hobbit/asset_tag'
 require 'hobbit/contrib/version'
 require 'hobbit/environment'
 require 'hobbit/error_handling'
