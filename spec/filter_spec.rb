@@ -170,4 +170,75 @@ EOS
       last_response.body.must_match /goodbye world/
     end
   end
+
+  describe 'when halting in a before filter' do
+    let :app do
+      mock_app do
+        include Hobbit::Filter
+
+        before do
+          halt 401
+        end
+
+        get '/' do
+          'hello world'
+        end
+      end
+    end
+
+    it 'wont execute the route' do
+      get '/'
+      last_response.status.must_equal 401
+      last_response.body.must_be :empty?
+    end
+  end
+
+  describe 'when halting in a route' do
+    let :app do
+      mock_app do
+        include Hobbit::Filter
+
+        before do
+          response.headers['Content-Type'] = 'text/plain'
+        end
+
+        after do
+          response.headers['Content-Type'] = 'application/json'
+        end
+
+        get '/' do
+          halt 401, body: 'Unauthenticated'
+        end
+      end
+    end
+
+    it 'wont execute the after filter' do
+      get '/'
+      last_response.status.must_equal 401
+      last_response.headers.wont_include 'Content-Type'
+      last_response.body.must_equal 'Unauthenticated'
+    end
+  end
+
+  describe 'when halting in an after filter' do
+    let :app do
+      mock_app do
+        include Hobbit::Filter
+
+        after do
+          halt 401
+        end
+
+        get '/' do
+          'hello world'
+        end
+      end
+    end
+
+    it 'wont execute the route' do
+      get '/'
+      last_response.status.must_equal 401
+      last_response.body.must_be :empty?
+    end
+  end
 end

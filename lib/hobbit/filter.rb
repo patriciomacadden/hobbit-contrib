@@ -2,7 +2,7 @@ module Hobbit
   module Filter
     module ClassMethods
       %w(after before).each do |kind|
-        define_method(kind) { |path = '', &block| filters[kind.to_sym] << compile_filter(path, &block) }
+        define_method(kind) { |path = '/', &block| filters[kind.to_sym] << compile_filter(path, &block) }
       end
 
       def filters
@@ -29,12 +29,19 @@ module Hobbit
       @env = env
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
-      filter :before
-      unless @response.status == 302
-        super
-        filter :after
+      catch :halt do
+        filter :before
+        unless @response.status == 302
+          super
+          filter :after unless @halted
+        end
       end
       @response.finish
+    end
+
+    def halt(status, headers: {}, body: [])
+      @halted = true
+      super
     end
 
     def self.included(othermod)
@@ -44,14 +51,25 @@ module Hobbit
     private
 
     def filter(kind)
-      filter = self.class.filters[kind].detect { |f| f[:compiled_path] =~ request.path_info || f[:path] =~ // }
+      filter = find_filter(kind)
+      if filter
+        instance_eval(&filter[:block])
+      end
+    end
+
+    def find_filter(kind)
+      filter = self.class.filters[kind].detect do |f|
+        f[:compiled_path] =~ request.path_info
+      end
+
       if filter
         $~.captures.each_with_index do |value, index|
           param = filter[:extra_params][index]
           request.params[param] = value
         end
-        instance_eval(&filter[:block])
       end
+
+      filter
     end
   end
 end
