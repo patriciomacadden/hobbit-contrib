@@ -13,7 +13,7 @@ module Hobbit
     def _call(env)
       super
     rescue *self.class.errors.keys => e
-      rescued = self.class.errors.keys.detect { |k| e.kind_of?(k)}
+      rescued = self.class.errors.keys.detect { |k| e.kind_of?(k) }
 
       body = instance_eval { self.class.errors[rescued].call(e) }
       response.body = [body]
