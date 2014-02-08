@@ -1,3 +1,9 @@
+# 0.4.1
+
+* Fix `Hobbit::ErrorHandling`. Now, when an exception is raised, the `error`
+block is executed in the context of the object, not the class.
+* Fix error handling and filter specs.
+
 # 0.4.0
 
 * Fix `Hobbit::Filter`. Now it works with `halt`, introduced in `hobbit` 0.4.0.
