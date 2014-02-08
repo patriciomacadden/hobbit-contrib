@@ -7,6 +7,7 @@ describe Hobbit::ErrorHandling do
   class NotFoundException < Exception ; end
   class SpecificNotFoundException < NotFoundException ; end
   class UnknownException < Exception ; end
+  class MustUseResponseException < Exception ; end
 
   let(:app) do
     mock_app do
@@ -16,10 +17,14 @@ describe Hobbit::ErrorHandling do
         'Not Found'
       end
 
-      error StandardError do |exception|
+      error StandardError do
+        exception = env['hobbit.error']
         exception.message
       end
 
+      error MustUseResponseException do
+        response.redirect '/'
+      end
 
       get '/' do
         'hello'
@@ -43,6 +48,11 @@ describe Hobbit::ErrorHandling do
       get '/uncaught_raise' do
         response.write 'not this'
         raise UnknownException
+      end
+
+      get '/must_use_response' do
+        response.write 'not this'
+        raise MustUseResponseException
       end
     end
   end
@@ -76,11 +86,11 @@ describe Hobbit::ErrorHandling do
 
   describe 'when does raise an unknown exception class' do
     it 'must not halt default propagation of the unknown class' do
-      proc {get '/uncaught_raise'}.must_raise(UnknownException)
+      proc { get '/uncaught_raise' }.must_raise UnknownException
     end
   end
 
-  describe 'when raises an known exception class' do
+  describe 'when raises a known exception class' do
     it 'must call the block set in error' do
       get '/raises'
       last_response.must_be :ok?
@@ -114,6 +124,13 @@ describe Hobbit::ErrorHandling do
       get '/raises'
       last_response.must_be :ok?
       last_response.body.must_equal 'other handler!'
+    end
+
+    it 'must use response object' do
+      get '/must_use_response'
+      last_response.must_be :redirection?
+      follow_redirect!
+      last_response.body.must_equal 'hello'
     end
   end
 end

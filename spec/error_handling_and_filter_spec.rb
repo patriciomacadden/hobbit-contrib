@@ -10,8 +10,9 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
 
-        error Exception do |exc|
-          exc.message
+        error Exception do
+          exception = env['hobbit.error']
+          exception.message
         end
 
         before do
@@ -43,8 +44,9 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
 
-        error Exception do |exc|
-          exc.message
+        error Exception do
+          exception = env['hobbit.error']
+          exception.message
         end
 
         before do
@@ -75,8 +77,9 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
 
-        error Exception do |exc|
-          exc.message
+        error Exception do
+          exception = env['hobbit.error']
+          exception.message
         end
 
         before do
@@ -108,8 +111,9 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
           include Hobbit::ErrorHandling
           include Hobbit::Filter
 
-          error Exception do |exc|
-            exc.message
+          error Exception do
+            exception = env['hobbit.error']
+            exception.message
           end
 
           before do

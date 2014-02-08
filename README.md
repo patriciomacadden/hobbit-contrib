@@ -83,7 +83,8 @@ require 'hobbit/contrib'
 class App < Hobbit::Base
   include Hobbit::ErrorHandling
 
-  error Exception do |exception|
+  error Exception
+    exception = env['hobbit.error']
     exception.message
   end
 
