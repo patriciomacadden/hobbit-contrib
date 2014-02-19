@@ -1,3 +1,8 @@
+# 0.4.2
+
+* Make `environment`, `development?`, `production?` and `test?` available
+in class context (in `Hobbit::Environment`).
+
 # 0.4.1
 
 * Fix `Hobbit::ErrorHandling`. Now, when an exception is raised, the `error`

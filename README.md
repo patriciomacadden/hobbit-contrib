@@ -71,6 +71,8 @@ run App.new
 * `production?`: Returns true if the current environment is `:production`.
 * `test?`: Returns true if the current environment is `:test`.
 
+**Note**: All methods are available at class and instance context.
+
 ### Hobbit::ErrorHandling
 
 This extension provides a way of handling errors raised by your application. To
