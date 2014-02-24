@@ -1,3 +1,9 @@
+# 0.5.0 (Unreleased)
+
+* Refactor `Hobbit::ErrorHandling` according to the recent changes on
+`Hobbit::Response`.
+* Fix tests.
+
 # 0.4.2
 
 * Make `environment`, `development?`, `production?` and `test?` available

@@ -31,28 +31,28 @@ describe Hobbit::ErrorHandling do
       end
 
       get '/raises' do
-        'not this'
         raise StandardError, 'StandardError'
+        'not this'
       end
 
       get '/other_raises' do
-        response.write 'not this'
         raise NotFoundException
+        response.write 'not this'
       end
 
       get '/same_other_raises' do
-        response.write 'not this'
         raise SpecificNotFoundException
+        response.write 'not this'
       end
 
       get '/uncaught_raise' do
-        response.write 'not this'
         raise UnknownException
+        response.write 'not this'
       end
 
       get '/must_use_response' do
-        response.write 'not this'
         raise MustUseResponseException
+        response.write 'not this'
       end
     end
   end

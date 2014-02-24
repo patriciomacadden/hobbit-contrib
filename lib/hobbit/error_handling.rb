@@ -16,8 +16,7 @@ module Hobbit
       rescued = self.class.errors.keys.detect { |k| e.kind_of?(k) }
 
       env['hobbit.error'] = e
-      body = instance_eval &self.class.errors[rescued]
-      response.body = [body]
+      response.write instance_eval(&self.class.errors[rescued])
       response.finish
     end
 

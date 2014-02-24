@@ -91,7 +91,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
         end
 
         get '/' do
-          'this wont be the body'
+          'this is written in the body. '
         end
       end
     end
@@ -99,7 +99,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
     it 'must call the before filter' do
       get '/'
       last_response.must_be :ok?
-      last_response.body.must_equal 'Sorry'
+      last_response.body.must_equal 'this is written in the body. Sorry'
       last_request.env.must_include 'hobbit.before'
     end
   end
