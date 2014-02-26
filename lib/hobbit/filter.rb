@@ -39,7 +39,7 @@ module Hobbit
       @response.finish
     end
 
-    def halt(status, headers: {}, body: [])
+    def halt(*res)
       @halted = true
       super
     end
