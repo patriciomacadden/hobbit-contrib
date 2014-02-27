@@ -2,7 +2,7 @@ module Hobbit
   module Filter
     module ClassMethods
       %w(after before).each do |kind|
-        define_method(kind) { |path = '/', &block| filters[kind.to_sym] << compile_filter(path, &block) }
+        define_method(kind) { |path = '', &block| filters[kind.to_sym] << compile_filter(path, &block) }
       end
 
       def filters
@@ -59,7 +59,7 @@ module Hobbit
 
     def find_filter(kind)
       filter = self.class.filters[kind].detect do |f|
-        f[:compiled_path] =~ request.path_info
+        f[:compiled_path] =~ request.path_info || f[:compiled_path] =~ ''
       end
 
       if filter

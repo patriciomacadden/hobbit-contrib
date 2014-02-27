@@ -3,6 +3,8 @@
 * Refactor `Hobbit::ErrorHandling` according to the recent changes on
 `Hobbit::Response`.
 * Fix tests.
+* Fix `Hobbit::Filter`. It wasn't filtering actions if an empty before (or
+after) filter was defined.
 
 # 0.4.2
 
