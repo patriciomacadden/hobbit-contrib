@@ -1,3 +1,7 @@
+# 0.5.1
+
+* Fix broken tests.
+
 # 0.5.0
 
 * Refactor `Hobbit::ErrorHandling` according to the recent changes on
