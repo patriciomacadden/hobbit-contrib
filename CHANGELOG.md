@@ -1,4 +1,4 @@
-# 0.5.0 (Unreleased)
+# 0.5.0
 
 * Refactor `Hobbit::ErrorHandling` according to the recent changes on
 `Hobbit::Response`.
