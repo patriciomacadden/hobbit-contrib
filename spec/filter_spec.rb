@@ -209,7 +209,7 @@ EOS
         end
 
         get '/' do
-          halt 401, body: 'Unauthenticated'
+          halt 401, 'Unauthenticated'
         end
       end
     end
@@ -217,7 +217,8 @@ EOS
     it 'wont execute the after filter' do
       get '/'
       last_response.status.must_equal 401
-      last_response.headers.wont_include 'Content-Type'
+      last_response.headers.must_include 'Content-Type'
+      last_response.headers['Content-Type'].must_equal 'text/plain'
       last_response.body.must_equal 'Unauthenticated'
     end
   end
@@ -240,7 +241,7 @@ EOS
     it 'wont execute the route' do
       get '/'
       last_response.status.must_equal 401
-      last_response.body.must_be :empty?
+      last_response.body.must_equal 'hello world'
     end
   end
 end

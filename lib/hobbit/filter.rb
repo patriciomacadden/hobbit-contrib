@@ -32,7 +32,10 @@ module Hobbit
       catch :halt do
         filter :before
         unless @response.status == 302
+          # we have to do this because `super` will override @response and @request
+          prev_response = @response
           super
+          @response.headers.merge! prev_response.headers
           filter :after unless @halted
         end
       end
