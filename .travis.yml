@@ -3,3 +3,7 @@ rvm:
   - 2.0.0
   - 2.1.0
   - ruby-head
+addons:
+  code_climate:
+    repo_token:
+      secure: "L2qK51BSckPkJpBqSEIdiGZzd/iBebueZh3Vn5C14uBGfJasfq1cp7rwBvoaJRZ4kYPl6ZvyD9KGIbfzzhYFgC0cMwNaMsk2koV37IB+kKCek7JTOqEmvdHW8mfWAtaVL4HMm+MhXJq6JhxUvSmFLDMLtmtlwm77gTWKvT2afyE="

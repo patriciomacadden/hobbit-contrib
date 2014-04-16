@@ -5,7 +5,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
   include Rack::Test::Methods
 
   describe 'when the exception ocurrs in a route' do
-    let(:app) do
+    let :app do
       mock_app do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
@@ -39,7 +39,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
   end
 
   describe 'when the exception ocurrs in a before filter' do
-    let(:app) do
+    let :app do
       mock_app do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
@@ -72,7 +72,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
   end
 
   describe 'when the exception ocurrs in an after filter' do
-    let(:app) do
+    let :app do
       mock_app do
         include Hobbit::Filter
         include Hobbit::ErrorHandling
@@ -106,7 +106,7 @@ describe 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
 
   describe 'the order of the modules inclusion matters' do
     describe 'when ErrorHandling is included before Filter' do
-      let(:app) do
+      let :app do
         mock_app do
           include Hobbit::ErrorHandling
           include Hobbit::Filter

@@ -5,7 +5,7 @@ describe Hobbit::Filter do
   include Rack::Test::Methods
 
   describe 'basic specs' do
-    let(:app) do
+    let :app do
       mock_app do
         include Hobbit::Filter
 
@@ -110,8 +110,35 @@ EOS
     end
   end
 
+  describe 'filters with parameters' do
+    let :app do
+      mock_app do
+        include Hobbit::Filter
+
+        before '/:name' do
+          env['hobbit.before'] = 'this is before'
+        end
+
+        after '/:name' do
+          env['hobbit.after'] = 'this is after'
+        end
+
+        get('/:name') { env['hobbit.before'] }
+      end
+    end
+
+    it 'must call the before and after filters' do
+      get '/hobbit'
+      last_response.must_be :ok?
+      last_request.env.must_include 'hobbit.before'
+      last_request.env['hobbit.before'].must_equal 'this is before'
+      last_request.env.must_include 'hobbit.after'
+      last_request.env['hobbit.after'].must_equal 'this is after'
+    end
+  end
+
   describe 'when multiple filters are declared' do
-    let(:app) do
+    let :app do
       mock_app do
         include Hobbit::Filter
 

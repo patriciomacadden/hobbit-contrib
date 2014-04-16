@@ -83,5 +83,13 @@ describe Hobbit::Render do
     it 'must return the path to the views directory' do
       app.to_app.views_path.must_equal File.expand_path('../fixtures/render/views', __FILE__)
     end
+
+    it 'defaults to "views"' do
+      a = mock_app do
+        include Hobbit::Render
+      end
+
+      a.to_app.views_path.must_equal 'views'
+    end
   end
 end

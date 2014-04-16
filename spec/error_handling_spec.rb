@@ -9,7 +9,7 @@ describe Hobbit::ErrorHandling do
   class UnknownException < Exception ; end
   class MustUseResponseException < Exception ; end
 
-  let(:app) do
+  let :app do
     mock_app do
       include Hobbit::ErrorHandling
 
