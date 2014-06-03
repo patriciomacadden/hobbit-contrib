@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['patriciomacadden@gmail.com']
   spec.description   = %q{Contributed Hobbit extensions}
   spec.summary       = %q{Contributed Hobbit extensions}
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/patriciomacadden/hobbit-contrib'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -24,7 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
 
-  spec.add_runtime_dependency 'hobbit'
-  spec.add_runtime_dependency 'tilt'
   spec.add_runtime_dependency 'erubis'
+  spec.add_runtime_dependency 'hobbit'
+  spec.add_runtime_dependency 'mote'
+  spec.add_runtime_dependency 'tilt'
 end

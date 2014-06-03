@@ -144,6 +144,39 @@ run App.new
 **Note**: It is recommended to include `Hobbit::Filter` before
 `Hobbit::ErrorHandling` if you want to use both extensions.
 
+### Hobbit::Mote
+
+This module provides rendering to your hobbit application using [mote](https://github.com/soveran/mote).
+To use this extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::Mote
+
+  get '/' do
+    # will render views/index.mote using views/layouts/application.mote as layout
+    render 'index'
+  end
+end
+```
+
+#### Available methods
+
+* `default_layout`: Returns the name of the default layout (Override to use
+another layout).
+* `find_template`: Returns the path to a template (Override for multiple views
+paths lookup).
+* `layouts_path`: Returns the layouts path (Override to change the layouts
+directory).
+* `partial`: Renders the given template using tilt (without a layout).
+* `render`: Renders the given template using tilt. You can pass a `layout`
+option to change the layout (or set to `false` to not use one).
+* `views_path`: Returns the views path (Override to change the views
+directory).
+
 ### Hobbit::Render
 
 This module provides rendering to your hobbit application. To use this

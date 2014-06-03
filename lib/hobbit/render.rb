@@ -23,8 +23,7 @@ module Hobbit
       template = find_template template
       layout = default_layout
       if options.include? :layout
-        layout = options[:layout]
-        options.delete :layout
+        layout = options.delete :layout
       end
       if layout
         _render(layout) { _render(template) }

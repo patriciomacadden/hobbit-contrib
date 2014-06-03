@@ -1,3 +1,7 @@
+# 0.5.2
+
+* Add `Hobbit::Mote`
+
 # 0.5.1
 
 * Fix broken tests.

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>From application.mote</title>
+  </head>
+  <body>
+    {{ content }}
+  </body>
+</html>
