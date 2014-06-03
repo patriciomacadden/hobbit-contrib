@@ -3,7 +3,7 @@ require 'mote'
 module Hobbit
   module Mote
     def self.included(othermod)
-      othermod.include ::Mote::Helpers
+      othermod.send :include, ::Mote::Helpers
     end
 
     def default_layout
