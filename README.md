@@ -24,6 +24,11 @@ Or install it yourself as:
 $ gem install hobbit-contrib
 ```
 
+### Optional dependencies
+
+* [mote](https://github.com/soveran/mote) if you want to use `Hobbit::Mote`.
+* [tilt](https://github.com/rtomayko/tilt) if you want to use `Hobbit::Render`.
+
 ## Usage
 
 Each extension may have its own usage. In general, including the module will be

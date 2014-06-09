@@ -20,12 +20,12 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'codeclimate-test-reporter'
+  spec.add_development_dependency 'erubis'
+  spec.add_development_dependency 'mote'
   spec.add_development_dependency 'oktobertest'
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'tilt'
 
-  spec.add_runtime_dependency 'erubis'
   spec.add_runtime_dependency 'hobbit'
-  spec.add_runtime_dependency 'mote'
-  spec.add_runtime_dependency 'tilt'
 end

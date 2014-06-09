@@ -2,6 +2,12 @@ require 'hobbit/contrib/version'
 require 'hobbit/environment'
 require 'hobbit/error_handling'
 require 'hobbit/filter'
-require 'hobbit/mote'
-require 'hobbit/render'
+begin
+  require 'hobbit/mote'
+rescue LoadError
+end
+begin
+  require 'hobbit/render'
+rescue LoadError
+end
 require 'hobbit/session'

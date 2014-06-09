@@ -2,9 +2,7 @@ require 'mote'
 
 module Hobbit
   module Mote
-    def self.included(othermod)
-      othermod.send :include, ::Mote::Helpers
-    end
+    include ::Mote::Helpers
 
     def default_layout
       "#{layouts_path}/application.mote"
