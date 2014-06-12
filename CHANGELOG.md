@@ -1,3 +1,9 @@
+# 0.6.0
+
+* Make it work with `hobbit` 0.6.0
+* Test hobbit with [oktobertest](https://github.com/patriciomacadden/oktobertest)
+instead of minitest (Because reasons!).
+
 # 0.5.2
 
 * Add `Hobbit::Mote`
