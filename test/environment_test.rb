@@ -16,7 +16,7 @@ scope Hobbit::Environment do
   scope '::environment' do
     test 'returns the current environment' do
       with_env('development') do
-        assert app.to_app.class.environment == :development
+        assert_equal :development, app.to_app.class.environment
       end
     end
   end
@@ -24,7 +24,7 @@ scope Hobbit::Environment do
   scope '#environment' do
     test 'returns the current environment' do
       with_env('development') do
-        assert app.to_app.environment == :development
+        assert_equal :development, app.to_app.environment
       end
     end
   end
@@ -32,71 +32,71 @@ scope Hobbit::Environment do
   scope '::development?' do
     test "returns true if ENV['RACK_ENV'] = :development" do
       with_env('development') do
-        assert app.to_app.class.development? == true
+        assert app.to_app.class.development?
       end
     end
 
     test "returns false if ENV['RACK_ENV'] != :development" do
-      assert app.to_app.class.development? == false
+      assert !app.to_app.class.development?
     end
   end
 
   scope '#development?' do
     test "returns true if ENV['RACK_ENV'] = :development" do
       with_env('development') do
-        assert app.to_app.development? == true
+        assert app.to_app.development?
       end
     end
 
     test "returns false if ENV['RACK_ENV'] != :development" do
-      assert app.to_app.development? == false
+      assert !app.to_app.development?
     end
   end
 
   scope '::production?' do
     test "returns true if ENV['RACK_ENV'] = :production" do
       with_env('production') do
-        assert app.to_app.class.production? == true
+        assert app.to_app.class.production?
       end
     end
 
     test "returns false if ENV['RACK_ENV'] != :production" do
-      assert app.to_app.class.production? == false
+      assert !app.to_app.class.production?
     end
   end
 
   scope '#production?' do
     test "returns true if ENV['RACK_ENV'] = :production" do
       with_env('production') do
-        assert app.to_app.production? == true
+        assert app.to_app.production?
       end
     end
 
     test "returns false if ENV['RACK_ENV'] != :production" do
-      assert app.to_app.production? == false
+      assert !app.to_app.production?
     end
   end
 
   scope '::test?' do
     test "returns true if ENV['RACK_ENV'] = :test" do
-      assert app.to_app.class.test? == true
+      assert app.to_app.class.test?
     end
 
     test "returns false if ENV['RACK_ENV'] != :test" do
       with_env('development') do
-        assert app.to_app.class.test? == false
+        assert !app.to_app.class.test?
       end
     end
   end
 
   scope '#test?' do
     test "returns true if ENV['RACK_ENV'] = :test" do
-      assert app.to_app.test? == true
+      assert app.to_app.test?
     end
 
     test "returns false if ENV['RACK_ENV'] != :test" do
       with_env('development') do
-        assert app.to_app.test? == false
+        assert !app.to_app.test?
       end
     end
   end

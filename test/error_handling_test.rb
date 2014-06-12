@@ -57,14 +57,14 @@ scope Hobbit::ErrorHandling do
         error StandardError, &p
       end
 
-      assert app.to_app.class.errors.include? StandardError
-      assert app.to_app.class.errors[StandardError].call == p.call
+      assert_includes app.to_app.class.errors, StandardError
+      assert_equal p.call, app.to_app.class.errors[StandardError].call
     end
   end
 
   scope '::errors' do
     test 'returns a Hash' do
-      assert app.to_app.class.errors.kind_of? Hash
+      assert_kind_of Hash, app.to_app.class.errors
     end
   end
 
@@ -72,7 +72,7 @@ scope Hobbit::ErrorHandling do
     test 'works as expected' do
       get '/'
       assert last_response.ok?
-      assert last_response.body == 'hello'
+      assert_equal 'hello', last_response.body
     end
   end
 
@@ -94,25 +94,25 @@ scope Hobbit::ErrorHandling do
     test 'calls the block set in error' do
       get '/raises'
       assert last_response.ok?
-      assert last_response.body == 'StandardError'
+      assert_equal 'StandardError', last_response.body
     end
 
     test 'allows to define more than one exception' do
       get '/other_raises'
       assert last_response.ok?
-      assert last_response.body == 'Not Found'
+      assert_equal 'Not Found', last_response.body
     end
 
     test 'allows to define a general exception class to catch' do
       get '/same_other_raises'
       assert last_response.ok?
-      assert last_response.body == 'Not Found'
+      assert_equal 'Not Found', last_response.body
     end
 
     test 'sets the returned value of the error block as the body' do
       get '/other_raises'
       assert last_response.ok?
-      assert last_response.body == 'Not Found'
+      assert_equal 'Not Found', last_response.body
       assert last_response.body != 'not this'
     end
 
@@ -123,14 +123,14 @@ scope Hobbit::ErrorHandling do
 
       get '/raises'
       assert last_response.ok?
-      assert last_response.body == 'other handler!'
+      assert_equal 'other handler!', last_response.body
     end
 
     test 'uses the response object' do
       get '/must_use_response'
       assert last_response.redirection?
       follow_redirect!
-      assert last_response.body == 'hello'
+      assert_equal 'hello', last_response.body
     end
   end
 end

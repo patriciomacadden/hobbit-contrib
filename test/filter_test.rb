@@ -205,7 +205,8 @@ EOS
         include Hobbit::Filter
 
         before do
-          halt 401
+          response.status = 401
+          halt response.finish
         end
 
         get '/' do
@@ -216,7 +217,7 @@ EOS
 
     test 'does not execute the route' do
       get '/'
-      assert last_response.status == 401
+      assert_status 401
       assert last_response.body.empty?
     end
   end
@@ -235,17 +236,19 @@ EOS
         end
 
         get '/' do
-          halt 401, 'Unauthenticated'
+          response.status = 401
+          response.write 'Unauthenticated'
+          halt response.finish
         end
       end
     end
 
     test 'does not execute the after filter' do
       get '/'
-      assert last_response.status == 401
-      assert last_response.headers.include? 'Content-Type'
-      assert last_response.headers['Content-Type'] == 'text/plain'
-      assert last_response.body == 'Unauthenticated'
+      assert_status 401
+      assert_includes last_response.headers, 'Content-Type'
+      assert_header 'Content-Type', 'text/plain'
+      assert_equal 'Unauthenticated', last_response.body
     end
   end
 
@@ -255,7 +258,8 @@ EOS
         include Hobbit::Filter
 
         after do
-          halt 401
+          response.status = 401
+          halt response.finish
         end
 
         get '/' do
@@ -266,8 +270,8 @@ EOS
 
     test 'does not execute the route' do
       get '/'
-      assert last_response.status == 401
-      assert last_response.body == 'hello world'
+      assert_status 401
+      assert_equal 'hello world', last_response.body
     end
   end
 end

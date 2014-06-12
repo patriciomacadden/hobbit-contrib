@@ -24,19 +24,19 @@ scope Hobbit::Render do
 
   scope '#default_layout' do
     test 'defaults to application.erb' do
-      assert app.to_app.default_layout == "#{app.to_app.layouts_path}/application.erb"
+      assert_equal "#{app.to_app.layouts_path}/application.erb", app.to_app.default_layout
     end
   end
 
   scope '#find_template' do
     test 'returns a template path' do
-      assert app.to_app.find_template('index') == "#{app.to_app.views_path}/index.#{app.to_app.template_engine}"
+      assert_equal "#{app.to_app.views_path}/index.#{app.to_app.template_engine}", app.to_app.find_template('index')
     end
   end
 
   scope '#layouts_path' do
     test 'returns the path to the layouts directory' do
-      assert app.to_app.layouts_path == "#{app.to_app.views_path}/layouts"
+      assert_equal "#{app.to_app.views_path}/layouts", app.to_app.layouts_path
     end
   end
 
@@ -74,13 +74,13 @@ scope Hobbit::Render do
 
   scope '#template_engine' do
     test 'defaults to erb' do
-      assert app.to_app.template_engine == 'erb'
+      assert_equal 'erb', app.to_app.template_engine
     end
   end
 
   scope '#views_path' do
     test 'returns the path to the views directory' do
-      assert app.to_app.views_path == File.expand_path('../fixtures/render/views', __FILE__)
+      assert_equal File.expand_path('../fixtures/render/views', __FILE__), app.to_app.views_path
     end
 
     test 'defaults to "views"' do
@@ -88,7 +88,7 @@ scope Hobbit::Render do
         include Hobbit::Render
       end
 
-      assert app.to_app.views_path == 'views'
+      assert_equal 'views', app.to_app.views_path
     end
   end
 end

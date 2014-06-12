@@ -6,6 +6,7 @@ CodeClimate::TestReporter.start
 ENV['RACK_ENV'] ||= 'test'
 
 require 'oktobertest'
+require 'oktobertest/contrib'
 require 'rack'
 require 'rack/test'
 

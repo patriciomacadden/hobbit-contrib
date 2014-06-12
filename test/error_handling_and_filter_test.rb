@@ -29,8 +29,8 @@ scope 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
     test 'calls the before filter' do
       get '/'
       assert last_response.ok?
-      assert last_response.body == 'Sorry'
-      assert last_request.env.include? 'hobbit.before'
+      assert_equal 'Sorry', last_response.body
+      assert_includes last_request.env, 'hobbit.before'
       assert !last_request.env.include?('hobbit.after')
     end
   end
@@ -63,7 +63,7 @@ scope 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
     test 'calls the before filter' do
       get '/'
       assert last_response.ok?
-      assert last_response.body == 'Sorry'
+      assert_equal 'Sorry', last_response.body
       assert !last_request.env.include?('hobbit.after')
     end
   end
@@ -96,8 +96,8 @@ scope 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
     test 'calls the before filter' do
       get '/'
       assert last_response.ok?
-      assert last_response.body == 'this is written in the body. Sorry'
-      assert last_request.env.include? 'hobbit.before'
+      assert_equal 'this is written in the body. Sorry', last_response.body
+      assert_includes last_request.env, 'hobbit.before'
     end
   end
 
@@ -130,11 +130,11 @@ scope 'combine Hobbit::ErrorHandling and Hobbit::Filter' do
       test 'does not work as expected' do
         get '/'
         assert last_response.ok?
-        assert last_response.body == 'Sorry'
-        assert last_request.env.include? 'hobbit.before'
+        assert_equal 'Sorry', last_response.body
+        assert_includes last_request.env, 'hobbit.before'
         # this is contrary to a previous test, which is not the desired workflow
         # or is it?
-        assert last_request.env.include? 'hobbit.after'
+        assert_includes last_request.env, 'hobbit.after'
       end
     end
   end

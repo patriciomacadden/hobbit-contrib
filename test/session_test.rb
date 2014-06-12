@@ -20,11 +20,11 @@ scope Hobbit::Session do
     test 'returns a session object' do
       get '/'
       assert last_response.ok?
-      assert last_response.body == 'hobbit'
+      assert_equal 'hobbit', last_response.body
 
       get '/name'
       assert last_response.ok?
-      assert last_response.body == 'hobbit'
+      assert_equal 'hobbit', last_response.body
     end
   end
 end

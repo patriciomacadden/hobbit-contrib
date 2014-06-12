@@ -34,15 +34,15 @@ module Hobbit
         unless @response.status == 302
           # we have to do this because `super` will override @response and @request
           prev_response = @response
-          super
-          @response.headers.merge! prev_response.headers
+          current_response = super
+          @response = Hobbit::Response.new current_response[2], current_response[0], current_response[1].merge!(prev_response.headers)
           filter :after unless @halted
         end
+        @response.finish
       end
-      @response.finish
     end
 
-    def halt(*res)
+    def halt(response)
       @halted = true
       super
     end
@@ -57,6 +57,7 @@ module Hobbit
       filter = find_filter(kind)
       if filter
         instance_eval(&filter[:block])
+        response.finish if kind == :after
       end
     end
 
