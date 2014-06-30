@@ -16,8 +16,14 @@ module Hobbit
       "#{views_path}/layouts"
     end
 
+    def partial_path(template)
+      parts = template.split('/')
+      name = "_#{parts.pop}"
+      "#{parts.join('/')}/#{name}"
+    end
+
     def partial(template, params = {}, context = self)
-      template = find_template "_#{template}"
+      template = find_template partial_path(template)
       mote template, params, context
     end
 
