@@ -54,26 +54,20 @@ module Hobbit
     private
 
     def filter(kind)
-      filter = find_filter(kind)
-      if filter
-        instance_eval(&filter[:block])
-        response.finish if kind == :after
+      find_filters(kind).each do |filter|
+        if filter[:compiled_path] =~ request.path_info
+          $~.captures.each_with_index do |value, index|
+            param = filter[:extra_params][index]
+            request.params[param] = value
+          end
+        end
+        instance_eval &filter[:block]
       end
+      response.finish if kind == :after
     end
 
-    def find_filter(kind)
-      filter = self.class.filters[kind].detect do |f|
-        f[:compiled_path] =~ request.path_info || f[:compiled_path] =~ ''
-      end
-
-      if filter
-        $~.captures.each_with_index do |value, index|
-          param = filter[:extra_params][index]
-          request.params[param] = value
-        end
-      end
-
-      filter
+    def find_filters(kind)
+      self.class.filters[kind].select { |f| f[:compiled_path] =~ request.path_info || f[:compiled_path] =~ '' }
     end
   end
 end

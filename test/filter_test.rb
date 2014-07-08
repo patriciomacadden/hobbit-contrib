@@ -139,32 +139,32 @@ scope Hobbit::Filter do
         include Hobbit::Filter
 
         before do
-          env['hobbit.before'] = 'this will match'
+          env['hobbit.before'] = ['this will match']
         end
 
         before '/' do
-          env['hobbit.before'] = 'this wont match'
+          env['hobbit.before'] << 'this will match too'
         end
 
         after do
-          env['hobbit.after'] = 'this will match'
+          env['hobbit.after'] = ['this will match']
         end
 
         after '/' do
-          env['hobbit.after'] = 'this wont match'
+          env['hobbit.after'] << 'this will match too'
         end
 
         get('/') { 'GET /' }
       end
     end
 
-    test 'calls the first that matches' do
+    test 'calls all matching filters' do
       get '/'
       assert last_response.ok?
       assert last_request.env.include? 'hobbit.before'
-      assert last_request.env['hobbit.before'] == 'this will match'
+      assert_equal ['this will match', 'this will match too'], last_request.env['hobbit.before']
       assert last_request.env.include? 'hobbit.after'
-      assert last_request.env['hobbit.after'] == 'this will match'
+      assert_equal ['this will match', 'this will match too'], last_request.env['hobbit.after']
     end
   end
 
