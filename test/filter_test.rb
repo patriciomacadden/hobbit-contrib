@@ -21,30 +21,27 @@ scope Hobbit::Filter do
     end
 
     %w(after before).each do |kind|
-      str = <<EOS
-    scope '::#{kind}' do
-      test do
-        p = Proc.new { 'do something' }
-        app = mock_app do
-          include Hobbit::Filter
-          #{kind}('', &p)
+      scope "::#{kind}" do
+        test do
+          p = Proc.new { 'do something' }
+          app = mock_app do
+            include Hobbit::Filter
+            send kind, &p
+          end
+
+          assert app.to_app.class.filters[:"#{kind}"].size == 1
+          assert app.to_app.class.filters[:"#{kind}"].first[:block].call == p.call
         end
-
-        assert app.to_app.class.filters[:#{kind}].size == 1
-        assert app.to_app.class.filters[:#{kind}].first[:block].call == p.call
       end
-    end
 
-    scope 'when a filter matches' do
-      test "calls the filters' block" do
-        get '/'
-        assert last_response.ok?
-        assert last_request.env.include? 'hobbit.#{kind}'
-        assert last_request.env['hobbit.#{kind}'] == 'this is #{kind}'
+      scope 'when a filter matches' do
+        test "calls the filters' block" do
+          get '/'
+          assert last_response.ok?
+          assert last_request.env.include? "hobbit.#{kind}"
+          assert last_request.env["hobbit.#{kind}"] == "this is #{kind}"
+        end
       end
-    end
-EOS
-      instance_eval str
     end
 
     scope '::filters' do
