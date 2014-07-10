@@ -1,3 +1,8 @@
+# 0.7.0
+
+* `Hobbit::Filter`: call all matching filters instead of calling the first
+matching filter.
+
 # 0.6.0
 
 * Make it work with `hobbit` 0.6.0
