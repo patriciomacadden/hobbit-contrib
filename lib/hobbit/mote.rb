@@ -9,6 +9,9 @@ module Hobbit
     end
 
     def find_template(template)
+      if template.to_s[0] == '_' && template.match('/')
+        template = template[1..-1].reverse.sub('/', '_/').reverse
+      end
       "#{views_path}/#{template}.mote"
     end
 
@@ -16,14 +19,8 @@ module Hobbit
       "#{views_path}/layouts"
     end
 
-    def partial_path(template)
-      parts = template.split('/')
-      name = "_#{parts.pop}"
-      "#{parts.join('/')}/#{name}"
-    end
-
     def partial(template, params = {}, context = self)
-      template = find_template partial_path(template)
+      template = find_template "_#{template}"
       mote template, params, context
     end
 
