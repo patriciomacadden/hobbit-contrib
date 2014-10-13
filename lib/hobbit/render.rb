@@ -44,7 +44,7 @@ module Hobbit
 
     def _render(template, locals = {}, options = {}, &block)
       cache.fetch template do
-        Tilt.new template, options
+        Tilt.new template, options.merge(outvar: '@_output')
       end.render self, locals, &block
     end
 
