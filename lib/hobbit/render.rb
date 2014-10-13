@@ -26,9 +26,9 @@ module Hobbit
         layout = options.delete :layout
       end
       if layout
-        _render(layout) { _render(template) }
+        _render(layout, locals, options) { _render(template, locals, options) }
       else
-        _render template
+        _render template, locals, options
       end
     end
 
