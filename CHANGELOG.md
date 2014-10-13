@@ -1,3 +1,7 @@
+# 0.7.1
+
+* Use a custom output variable when rendering Tilt templates
+
 # 0.7.0
 
 * `Hobbit::Filter`: call all matching filters instead of calling the first
