@@ -12,12 +12,18 @@ module Hobbit
 
     def _call(env)
       super
-    rescue *self.class.errors.keys => e
-      rescued = self.class.errors.keys.detect { |k| e.kind_of?(k) }
+    rescue Exception => e
+      base = self.class
 
-      env['hobbit.error'] = e
-      response.write instance_eval(&self.class.errors[rescued])
-      response.finish
+      while base.respond_to?(:errors)
+        next base = base.superclass unless exception = base.errors.keys.detect {|k| e.kind_of?(k) }
+
+        env['hobbit.error'] = e
+        response.write instance_eval(&base.errors[exception])
+        return response.finish
+      end
+
+      raise
     end
 
     def self.included(othermod)
