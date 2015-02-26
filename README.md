@@ -182,6 +182,8 @@ option to change the layout (or set to `false` to not use one).
 * `views_path`: Returns the views path (Override to change the views
 directory).
 
+NOTE: Use `{{content}}` within your layout to yield the rendered page.
+
 ### Hobbit::Render
 
 This module provides rendering to your hobbit application. To use this
