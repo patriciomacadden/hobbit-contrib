@@ -1,6 +1,7 @@
 require 'hobbit/contrib/version'
 require 'hobbit/environment'
 require 'hobbit/error_handling'
+require 'hobbit/json'
 require 'hobbit/filter'
 begin
   require 'hobbit/mote'
