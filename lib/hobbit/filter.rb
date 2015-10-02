@@ -28,7 +28,8 @@ module Hobbit
       env['PATH_INFO'] = '/' if env['PATH_INFO'].empty?
       @env = env
       @request = Rack::Request.new(@env)
-      @response = Hobbit::Response.new
+      @response = Hobbit::Response.new([], 200, {}) # pass empty params so that Content-Type header remains unset. otherwise, the main response's Content-Type will be ignored.
+      #@response.headers.delete "Content-Type" #another way to undo overriding default content-type
       catch :halt do
         filter :before
         unless @response.status == 302
