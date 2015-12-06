@@ -40,6 +40,10 @@ module Hobbit
       'views'
     end
 
+    def clear_cache
+      Thread.current[:cache] = nil
+    end
+    
     private
 
     def _render(template, locals = {}, options = {}, &block)
