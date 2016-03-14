@@ -155,6 +155,7 @@ This module provides rendering to your hobbit application using [mote](https://g
 To use this extension just include the module:
 
 ```ruby
+require 'mote'
 require 'hobbit'
 require 'hobbit/contrib'
 
@@ -186,10 +187,12 @@ NOTE: Use `{{content}}` within your layout to yield the rendered page.
 
 ### Hobbit::Render
 
-This module provides rendering to your hobbit application. To use this
-extension just include the module:
+This module provides rendering to your hobbit application using
+[tilt](https://github.com/rtomayko/tilt). To use this extension just include
+the module:
 
 ```ruby
+require 'tilt'
 require 'hobbit'
 require 'hobbit/contrib'
 
