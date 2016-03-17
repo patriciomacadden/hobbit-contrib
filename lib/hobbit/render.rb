@@ -40,6 +40,10 @@ module Hobbit
       'views'
     end
 
+    def clear_template_render_cache
+      Thread.current[:hobbit_render_cache] = nil
+    end
+    
     private
 
     def _render(template, locals = {}, options = {}, &block)
@@ -49,7 +53,7 @@ module Hobbit
     end
 
     def cache
-      Thread.current[:cache] ||= Tilt::Cache.new
+      Thread.current[:hobbit_render_cache] ||= Tilt::Cache.new
     end
   end
 end
