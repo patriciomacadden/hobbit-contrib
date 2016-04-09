@@ -17,6 +17,7 @@ scope Hobbit::Render do
 
       get('/') { render 'index' }
       get('/partial') { partial 'partial' }
+      get('/namespace-partial') { partial 'namespace/partial' }
       get('/using-context') { render 'hello' }
       get('/without-layout') { render '_partial', {}, layout: false }
     end
@@ -43,6 +44,13 @@ scope Hobbit::Render do
   scope '#partial' do
     test 'renders a template without a layout' do
       get '/partial'
+      assert last_response.ok?
+      assert last_response.body !~ /From application.erb/
+      assert last_response.body =~ /Hello World!/
+    end
+
+    test 'renders a template in namespace without a layout' do
+      get '/namespace-partial'
       assert last_response.ok?
       assert last_response.body !~ /From application.erb/
       assert last_response.body =~ /Hello World!/

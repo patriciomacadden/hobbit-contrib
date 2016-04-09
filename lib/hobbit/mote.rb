@@ -9,6 +9,9 @@ module Hobbit
     end
 
     def find_template(template)
+      if template.to_s[0] == '_' && template.match('/')
+        template = template[1..-1].reverse.sub('/', '_/').reverse
+      end
       "#{views_path}/#{template}.mote"
     end
 
