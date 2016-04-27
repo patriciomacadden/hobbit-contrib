@@ -61,7 +61,7 @@ module Hobbit
             request.params[param] = value
           end
         end
-        instance_eval &filter[:block]
+        instance_eval(&filter[:block])
       end
       response.finish if kind == :after
     end
