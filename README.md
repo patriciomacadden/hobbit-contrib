@@ -28,6 +28,7 @@ $ gem install hobbit-contrib
 
 * [mote](https://github.com/soveran/mote) if you want to use `Hobbit::Mote`.
 * [tilt](https://github.com/rtomayko/tilt) if you want to use `Hobbit::Render`.
+* [multi_json](https://github.com/intridea/multi_json) if you want to use `Hobbit::JSON`.
 
 ## Usage
 
@@ -148,6 +149,28 @@ run App.new
 
 **Note**: It is recommended to include `Hobbit::Filter` before
 `Hobbit::ErrorHandling` if you want to use both extensions.
+
+### Hobbit::JSON
+
+This extension provides helper method which convert object to json and set json header.
+To use this extension just include the module:
+
+```ruby
+require 'hobbit'
+require 'hobbit/contrib'
+
+class App < Hobbit::Base
+  include Hobbit::JSON
+
+  get '/' do
+    json({'hello' => 'world'})
+  end
+end
+```
+
+#### Available methods
+
+* `json`: Sets json header and convert object to json.
 
 ### Hobbit::Mote
 
